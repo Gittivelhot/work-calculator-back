@@ -1,7 +1,5 @@
 package gittiVelhot.workCalculator.web;
 
-import java.util.List;
-
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -11,8 +9,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import gittiVelhot.workCalculator.domain.User;
 import gittiVelhot.workCalculator.domain.UserRepository;
 

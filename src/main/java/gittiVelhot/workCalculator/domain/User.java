@@ -1,17 +1,17 @@
 package gittiVelhot.workCalculator.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Transient;
+import java.util.List;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.OneToMany;
 
 @Entity (name = "users")
-
-@JsonIgnoreProperties(value = { "passwordHash" , "email", "role", "passwordConfirmation"})
+@JsonIgnoreProperties(value = { "passwordHash" , "passwordConfirmation"})
 public class User {
-	
 	@Id
 	@Column(name = "username", nullable = false, unique = true)
 	private String username;
@@ -25,6 +25,9 @@ public class User {
     @Transient
     private String passwordConfirmation;
 
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+	private List<WorkingHours> workingHours;
+	
 	public User() {
 	}
 
@@ -67,5 +70,19 @@ public class User {
         this.passwordConfirmation = passwordConfirmation;
     }
 
+	public List<WorkingHours> getWorkingHours() {
+		return workingHours;
+	}
+
+	public void setWorkingHours(List<WorkingHours> workingHours) {
+		this.workingHours = workingHours;
+	}
+
+	@Override
+	public String toString() {
+		return "User [username=" + username + ", passwordHash=" + passwordHash + ", role=" + role + ", workingHours="
+				+ workingHours + "]";
+	}
+	
 }
 
