@@ -1,5 +1,6 @@
 package gittiVelhot.workCalculator.web;
 
+import java.security.Principal;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,8 +21,8 @@ public class HoursController {
 	private WorkingHoursRepository wrepository;
 	
 		@RequestMapping (value = "/api/user", method= RequestMethod.GET)
-		public @ResponseBody List <User> gamelistRest(){
-			return (List <User>) urepository.findAll();
+		public @ResponseBody User userRest(Principal user){
+			return urepository.findByUsername(user.getName());
 		}
 		
 		@RequestMapping (value = "/api/testi", method= RequestMethod.GET)
