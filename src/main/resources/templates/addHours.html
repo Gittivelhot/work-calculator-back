@@ -1,0 +1,28 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lisää tyoaika</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" /> 
+	
+</head>
+<body>
+	
+	
+	<div class="col-md-6" style="padding:10px ">
+	
+		<form th:object="${workingHours}" th:action="@{save}" action="#" method="post">
+		  	<label for="startTime">alku</label>
+              <input type="datetime-local" name="startTime" required th:field="*{startTime}" />
+			<div style="clear: both; display: block; height: 10px;"></div>
+
+            <label for="endTime">alku</label>
+              <input type="datetime-local" name="endTime" required th:field="*{endTime}" />
+			<div style="clear: both; display: block; height: 10px;"></div>
+    
+        
+        <input type="submit" value="Tallenna">
+    </form>
+    </div>
+</body>
+</html>
