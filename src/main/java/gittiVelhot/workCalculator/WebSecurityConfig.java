@@ -1,6 +1,7 @@
 package gittiVelhot.workCalculator;
 
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
+
 import gittiVelhot.workCalculator.web.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -34,7 +35,7 @@ public class WebSecurityConfig {
 				.anyRequest().authenticated())
 			.formLogin((form) -> form
 				.loginPage("/login")
-				.defaultSuccessUrl("http://localhost:5173/", true)
+				.defaultSuccessUrl("https://work-calculator-back-fe87ca711a8e.herokuapp.com/home", true)
 				.permitAll())
 			.logout((logout) -> logout
 				.permitAll())
