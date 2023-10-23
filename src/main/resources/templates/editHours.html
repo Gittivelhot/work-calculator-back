@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit hours</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+</head>
+<body>
+    <h1>Edit hours</h1>
+    <div class="formdiv">
+        <form th:object="${hours}" th:action="@{/update/{id}(id=${id})}" method="post">
+            <label for="startTime">Aloitus</label><br>
+            <input type="datetime-local" id="startTime" name="startTime" th:field="*{startTime}">
+            <div style="clear: both; display: block; height: 10px;"></div>
+            <label for="endTime">Lopetus</label><br>
+            <input type="datetime-local" id="endTime" name="endTime" th:field="*{endTime}">
+            <div style="clear: both; display: block; height: 10px;"></div>
+            <input type="submit" value="Update" class="btn btn-success">
+        </form>
+       
+    </div>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Työtunnit</title>
+</head>
+<body>
+    <h1>Kaikki työtunnit</h1>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Alkamisaika</th>
+            <th>Loppumisaika</th>
+            
+            <th>Toiminnot</th>
+        </tr>
+        <tr th:each="workingHour : ${workingHours}">
+            <td th:text="${workingHour.id}"></td>
+            <td th:text="${workingHour.startTime}"></td>
+            <td th:text="${workingHour.endTime}"></td>
+            <td><a th:href="@{/delete/{id}(id=${workingHour.id})}">Poista</a></td>
+            <td><a th:href="@{/editHours/{id}(id=${workingHour.id})}" >Muokkaa</a></td>
+        </tr>
+    </table>
+</body>
+</html>
