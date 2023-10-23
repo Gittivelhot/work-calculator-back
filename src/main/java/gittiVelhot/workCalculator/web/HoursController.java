@@ -82,6 +82,24 @@ public class HoursController {
 		model.addAttribute("workingHours", workingHoursList);
 		return "hoursList";
 	}
+	
+	@RequestMapping (value = "/editHours/{id}", method = RequestMethod.GET)
+	public String editHours(@PathVariable("id") Long id, Model model,WorkingHours hours) {
+		model.addAttribute("hours", wrepository.findById(id));
+		model.addAttribute("workingId", id);
+		return "editHours";
+		}
+	
+	@RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
+	public String updateHours (@PathVariable("id") Long id, Model model,WorkingHours hours) {
+		wrepository.save(hours);
+		return "redirect:../hoursList";
+		}
+	
+		
+	
+	
+	
 
 	
 
