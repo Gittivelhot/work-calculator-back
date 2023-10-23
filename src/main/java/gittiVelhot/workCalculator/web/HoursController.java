@@ -28,7 +28,7 @@ public class HoursController {
 	private WorkingHoursRepository wrepository;
 
 	// home sivulta linkki jossa voi lisätä työvuoron userille.
-	// localhost:8080/homa
+	// localhost:8080/home
 	// localhost:8080/add
 	@RequestMapping("/home")
 	public String homePage() {
@@ -69,5 +69,20 @@ public class HoursController {
 		wrepository.save(workingHours);
 		return "redirect:home";
 	}
+
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+	public String deleteHours(@PathVariable Long id) {
+		wrepository.deleteById(id);
+		return "redirect:../hoursList";
+	}
+
+	@RequestMapping(value = "/hoursList")
+	public String hoursList(Model model) {
+		List<WorkingHours> workingHoursList = (List<WorkingHours>) wrepository.findAll();
+		model.addAttribute("workingHours", workingHoursList);
+		return "hoursList";
+	}
+
 	
+
 }
