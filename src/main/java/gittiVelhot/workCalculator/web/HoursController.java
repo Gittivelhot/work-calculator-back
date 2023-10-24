@@ -30,6 +30,10 @@ public class HoursController {
 	// home sivulta linkki jossa voi lisätä työvuoron userille.
 	// localhost:8080/home
 	// localhost:8080/add
+	// https://work-calculator-back-fe87ca711a8e.herokuapp.com/home
+	// https://work-calculator-back-fe87ca711a8e.herokuapp.com/api/tyoaika
+
+
 	@RequestMapping("/home")
 	public String homePage() {
 		return "home"; // Palautetaan "home", joka viittaa home.html-sivun nimeen.
