@@ -32,6 +32,7 @@ public class WebSecurityConfig {
 				.requestMatchers(antMatcher("/css/**")).permitAll() 
 				.requestMatchers(antMatcher("/signup")).permitAll()
 				.requestMatchers(antMatcher("/saveuser")).permitAll()
+				.requestMatchers(antMatcher("/v3/api-docs/**")).permitAll() 
 				.anyRequest().authenticated())
 			.formLogin((form) -> form
 				.loginPage("/login")

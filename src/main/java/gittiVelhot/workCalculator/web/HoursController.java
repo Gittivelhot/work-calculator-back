@@ -18,6 +18,8 @@ import gittiVelhot.workCalculator.domain.User;
 import gittiVelhot.workCalculator.domain.UserRepository;
 import gittiVelhot.workCalculator.domain.WorkingHours;
 import gittiVelhot.workCalculator.domain.WorkingHoursRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Controller
 public class HoursController {
@@ -41,18 +43,30 @@ public class HoursController {
 
 	// find users by id REST
 	@RequestMapping(value = "/api/findbyuser", method = RequestMethod.GET)
+	@Operation(
+		summary = "Fetches user by id",
+		description = "Fetches user by id"
+	  )
 	public @ResponseBody User userRest(Principal user) {
 		return urepository.findByUsername(user.getName());
 	}
 
 	// find ALL existing users REST
 	@RequestMapping(value = "/api/findusers", method = RequestMethod.GET)
+	@Operation(
+		summary = "Fetches all users",
+		description = "Fetches all users"
+	  )
 	public @ResponseBody List<User> userlistRest() {
 		return (List<User>) urepository.findAll();
 	}
 
 	// List all workinghours REST
 	@RequestMapping(value = "/api/workinghours", method = RequestMethod.GET)
+	@Operation(
+		summary = "Fetches all working hours",
+		description = "Fetches all working hours"
+	  )
 	public @ResponseBody List<WorkingHours> tuntilistaRest() {
 		return (List<WorkingHours>) wrepository.findAll();
 	}
@@ -67,6 +81,11 @@ public class HoursController {
 
 	// save new workinghours
 	@RequestMapping(value = "/api/savehours", method = RequestMethod.POST)
+	@Tag(name = "Save", description = "Save working hours by id")
+	@Operation(
+		summary = "Save working hours",
+		description = "Save working hours to specific user"
+	  )
 	public String save(@ModelAttribute("WorkingHours") WorkingHours workingHours, Principal principal) {
 		String username = principal.getName();
 		User user = urepository.findByUsername(username);
@@ -79,13 +98,18 @@ public class HoursController {
 
 	// Delete existing workinghours using id
 	@RequestMapping(value = "/api/delete/{id}", method = RequestMethod.GET)
+	@Tag(name = "Delete", description = "Delete working hours by id")
+	@Operation(
+		summary = "Delete",
+		description = "Delete working hours by id"
+	  )
 	public String deleteHours(@PathVariable Long id) {
 		wrepository.deleteById(id);
 		return "redirect:../hoursList";
 	}
 
 	// List all existing hours using thymeleaf
-	@RequestMapping(value = "/api/lishours")
+	@RequestMapping(value = "/api/listhours")
 	public String hoursList(Model model) {
 		List<WorkingHours> workingHoursList = (List<WorkingHours>) wrepository.findAll();
 		model.addAttribute("workingHours", workingHoursList);
@@ -94,6 +118,11 @@ public class HoursController {
 
 	// edit existing workinghours
 	@RequestMapping(value = "/api/edithours/{id}", method = RequestMethod.GET)
+	@Tag(name = "Edit", description = "Edit working hours by id")
+	@Operation(
+		summary = "Edit working hours",
+		description = "Edit working hours by id"
+	  )
 	public String editHours(@PathVariable("id") Long id, Model model, WorkingHours hours) {
 		model.addAttribute("hours", wrepository.findById(id));
 		model.addAttribute("workingId", id);
@@ -102,6 +131,12 @@ public class HoursController {
 
 	// update your edits to existing working hours
 	@RequestMapping(value = "/api/update/{id}", method = RequestMethod.POST)
+	@Tag(name = "Update", description = "Update working hours by id")
+	@Operation(
+		summary = "Update working hours",
+		description = "Update working hours by id"
+	  )
+	
 	public String updateHours(@PathVariable("id") Long id, Model model, WorkingHours hours) {
 		wrepository.save(hours);
 		return "redirect:../hoursList";
