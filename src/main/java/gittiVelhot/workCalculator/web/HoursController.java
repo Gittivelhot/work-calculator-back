@@ -113,7 +113,7 @@ public class HoursController {
 	public String hoursList(Model model) {
 		List<WorkingHours> workingHoursList = (List<WorkingHours>) wrepository.findAll();
 		model.addAttribute("workingHours", workingHoursList);
-		return "/api/listhours";
+		return "hoursList";
 	}
 
 	// edit existing workinghours
@@ -139,7 +139,7 @@ public class HoursController {
 	
 	public String updateHours(@PathVariable("id") Long id, Model model, WorkingHours hours) {
 		wrepository.save(hours);
-		return "redirect:../api/listhours";
+		return "redirect:../hoursList";
 	}
 
 }
