@@ -105,7 +105,7 @@ public class HoursController {
 	  )
 	public String deleteHours(@PathVariable Long id) {
 		wrepository.deleteById(id);
-		return "redirect:../hoursList";
+		return "redirect:..//api/listhours";
 	}
 
 	// List all existing hours using thymeleaf
@@ -113,7 +113,7 @@ public class HoursController {
 	public String hoursList(Model model) {
 		List<WorkingHours> workingHoursList = (List<WorkingHours>) wrepository.findAll();
 		model.addAttribute("workingHours", workingHoursList);
-		return "hoursList";
+		return "/api/listhours";
 	}
 
 	// edit existing workinghours
@@ -139,7 +139,7 @@ public class HoursController {
 	
 	public String updateHours(@PathVariable("id") Long id, Model model, WorkingHours hours) {
 		wrepository.save(hours);
-		return "redirect:../hoursList";
+		return "redirect:../api/listhours";
 	}
 
 }
