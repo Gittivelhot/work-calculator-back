@@ -8,7 +8,7 @@
 <body>
     <h1>Edit hours</h1>
     <div class="formdiv">
-        <form th:object="${hours}" th:action="@{/update/{id}(id=${id})}" method="post">
+        <form th:object="${hours}" th:action="@{/api/update/{id}(id=${id})}" method="post">
             <label for="startTime">Aloitus</label><br>
             <input type="datetime-local" id="startTime" name="startTime" th:field="*{startTime}">
             <div style="clear: both; display: block; height: 10px;"></div>
