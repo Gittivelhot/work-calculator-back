@@ -139,7 +139,7 @@ public class HoursController {
 	
 	public String updateHours(@PathVariable("id") Long id, Model model, WorkingHours hours) {
 		wrepository.save(hours);
-		return "redirect:../hoursList";
+		return "redirect:../api/listhours";
 	}
 
 }
