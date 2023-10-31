@@ -17,8 +17,8 @@
             <td th:text="${workingHour.id}"></td>
             <td th:text="${workingHour.startTime}"></td>
             <td th:text="${workingHour.endTime}"></td>
-            <td><a th:href="@{/delete/{id}(id=${workingHour.id})}">Poista</a></td>
-            <td><a th:href="@{/editHours/{id}(id=${workingHour.id})}" >Muokkaa</a></td>
+            <td><a th:href="@{/api/delete/{id}(id=${workingHour.id})}">Poista</a></td>
+            <td><a th:href="@{/api/editHours/{id}(id=${workingHour.id})}" >Muokkaa</a></td>
         </tr>
     </table>
 </body>
