@@ -59,18 +59,6 @@ public class WorkCalculatorApplication {
 					LocalDateTime.of(2023, 11, 15, 17, 0), urepository.findByUsername("atte")));
 				wRepository.save(new WorkingHours(null, LocalDateTime.of(2023, 11, 16, 9, 0),
 					LocalDateTime.of(2023, 11, 16, 17, 0), urepository.findByUsername("atte")));
-
-
-
-
-
-
-
-
-
-
-
-
 			wRepository.save(new WorkingHours(null, LocalDateTime.of(2023, 11, 30, 9, 0),
 					LocalDateTime.of(2023, 11, 30, 17, 0), urepository.findByUsername("niko")));
 			wRepository.save(new WorkingHours(null, LocalDateTime.of(2023, 11, 27, 9, 0),

@@ -6,6 +6,7 @@ import gittiVelhot.workCalculator.web.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -27,19 +28,19 @@ public class WebSecurityConfig {
 	}
 	
 	@Bean
-	public SecurityFilterChain configure(HttpSecurity http) throws Exception {
+	public SecurityFilterChain configure(HttpSecurity http, UserDetailService userDetail) throws Exception {
 		http.authorizeHttpRequests((requests) -> requests
 				.requestMatchers(antMatcher("/css/**")).permitAll() 
 				.requestMatchers(antMatcher("/signup")).permitAll()
 				.requestMatchers(antMatcher("/saveuser")).permitAll()
 				.requestMatchers(antMatcher("/v3/api-docs/**")).permitAll() 
 				.anyRequest().authenticated())
-			.formLogin((form) -> form
-				.loginPage("/login")
-				.defaultSuccessUrl("https://work-calculator-back-fe87ca711a8e.herokuapp.com/home", true)
-				.permitAll())
-			.logout((logout) -> logout
-				.permitAll())
+			.rememberMe((rememberMe) -> rememberMe
+				.userDetailsService(userDetail)
+				.tokenValiditySeconds(86400)
+				.key("your-remember-me-key")
+			)
+			.httpBasic(Customizer.withDefaults())
 			.csrf(csrf -> csrf.disable());
 
 		return http.build();
