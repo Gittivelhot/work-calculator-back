@@ -30,7 +30,8 @@ public class HoursController {
     // localhost:8080/home
     // localhost:8080/add
     // https://work-calculator-back-fe87ca711a8e.herokuapp.com/home
-    // https://work-calculator-back-fe87ca711a8e.herokuapp.com/api/tyoaika
+    // https://work-calculator-back-fe87ca711a8e.herokuapp.com/api/workinghours
+	// https://work-calculator-back-fe87ca711a8e.herokuapp.com/swagger-ui/index.html
  
     // endpoint for homepage
     @RequestMapping("/home")

@@ -72,11 +72,11 @@ public class WorkCalculatorApplication {
 
 
 			wRepository.save(new WorkingHours(null, LocalDateTime.of(2023, 11, 30, 9, 0),
-					LocalDateTime.of(2023, 11, 30, 17, 0), urepository.findByUsername("user2")));
+					LocalDateTime.of(2023, 11, 30, 17, 0), urepository.findByUsername("niko")));
 			wRepository.save(new WorkingHours(null, LocalDateTime.of(2023, 11, 27, 9, 0),
-					LocalDateTime.of(2023, 11, 28, 17, 0), urepository.findByUsername("user2")));
+					LocalDateTime.of(2023, 11, 28, 17, 0), urepository.findByUsername("niko")));
 			wRepository.save(new WorkingHours(null, LocalDateTime.of(2023, 11, 25, 9, 0),
-					LocalDateTime.of(2023, 11, 25, 17, 0), urepository.findByUsername("user2")));
+					LocalDateTime.of(2023, 11, 25, 17, 0), urepository.findByUsername("niko")));
 
 		};
 	}
