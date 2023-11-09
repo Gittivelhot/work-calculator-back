@@ -17,7 +17,9 @@ import gittiVelhot.workCalculator.domain.WorkingHours;
 import gittiVelhot.workCalculator.domain.WorkingHoursRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.web.bind.annotation.CrossOrigin;
  
+@CrossOrigin(origins = "http://localhost:5173")
 @Controller
 public class HoursController {
  
@@ -29,6 +31,7 @@ public class HoursController {
     // home sivulta linkki jossa voi lisätä työvuoron userille.
     // localhost:8080/home
     // localhost:8080/add
+    // localhost:8080/api/workinghours
     // https://work-calculator-back-fe87ca711a8e.herokuapp.com/home
     // https://work-calculator-back-fe87ca711a8e.herokuapp.com/api/workinghours
 	// https://work-calculator-back-fe87ca711a8e.herokuapp.com/swagger-ui/index.html

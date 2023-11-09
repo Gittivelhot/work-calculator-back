@@ -22,7 +22,7 @@ public class WorkCalculatorApplication {
 		return (args) -> {
 			
 			// creating new user
-			User user1 = new User("atte", "$2a$12$fyf34Y.3O2BU0Oi0HmKfnu92mFIZWN50Ws5UIn2l7Rc8u30l2E/1W", "USER");   //PASSWORD: user
+			User user1 = new User("atte", "$2a$12$fyf34Y.3O2BU0Oi0HmKfnu92mFIZWN50Ws5UIn2l7Rc8u30l2E/1W", "ADMIN");   //PASSWORD: user
 			User user2 = new User("niko", "$2a$12$fyf34Y.3O2BU0Oi0HmKfnu92mFIZWN50Ws5UIn2l7Rc8u30l2E/1W", "USER");	 //PASSWORD: user
 			urepository.save(user1);
 			urepository.save(user2);
