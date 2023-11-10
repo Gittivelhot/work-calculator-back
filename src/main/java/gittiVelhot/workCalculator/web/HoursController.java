@@ -19,7 +19,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.CrossOrigin;
  
-@CrossOrigin(origins = "http://localhost:5173")
 @Controller
 public class HoursController {
  
@@ -63,6 +62,7 @@ public class HoursController {
     }
  
     // List all workinghours REST
+    @CrossOrigin(origins = "http://localhost:5173")
     @RequestMapping(value = "/api/workinghours", method = RequestMethod.GET)
     @Operation(
         summary = "Fetches all working hours",
