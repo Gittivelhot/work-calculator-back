@@ -20,12 +20,12 @@ public class LoginController {
 	@Autowired
 	private UserRepository urepository;
 		
-		@RequestMapping(value = "/login")
+		@RequestMapping(value = "/api/login")
 		public Principal login(Principal user) {
 			return user;
 		}
 		
-		@RequestMapping(value ="/signup", method = RequestMethod.POST)
+		@RequestMapping(value ="/api/signup", method = RequestMethod.POST)
 		public ResponseEntity<String> saveUser(@RequestBody NewUser user) {
 			String password = user.getPassword();
 			String password2 = user.getPasswordCheck();
