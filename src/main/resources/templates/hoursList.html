@@ -8,6 +8,7 @@
     <table>
         <tr>
             <th>ID</th>
+            <th>Käyttäjä</th>
             <th>Alkamisaika</th>
             <th>Loppumisaika</th>
             
@@ -15,6 +16,7 @@
         </tr>
         <tr th:each="workingHour : ${workingHours}">
             <td th:text="${workingHour.id}"></td>
+            <td th:text="${workingHour.user.username}"></td>
             <td th:text="${workingHour.startTime}"></td>
             <td th:text="${workingHour.endTime}"></td>
             <td><a th:href="@{/api/delete/{id}(id=${workingHour.id})}">Poista</a></td>

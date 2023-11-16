@@ -11,7 +11,7 @@
 	
 	<div class="col-md-6" style="padding:10px ">
 	
-		<form th:object="${workingHours}" th:action="@{save}" action="#" method="post">
+		<form th:object="${workingHours}" th:action="@{savehours}" action="#" method="post">
 		  	<label for="startTime">alku</label>
               <input type="datetime-local" name="startTime" required th:field="*{startTime}" />
 			<div style="clear: both; display: block; height: 10px;"></div>

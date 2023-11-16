@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.List;
  
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -27,7 +28,7 @@ public class HoursController {
     @Autowired
     private WorkingHoursRepository wrepository;
  
-    // home sivulta linkki jossa voi lisätä työvuoron userille.
+    
     // localhost:8080/home
     // localhost:8080/add
     // localhost:8080/api/workinghours
@@ -35,6 +36,7 @@ public class HoursController {
     // https://work-calculator-back-fe87ca711a8e.herokuapp.com/api/workinghours
 	// https://work-calculator-back-fe87ca711a8e.herokuapp.com/swagger-ui/index.html
  
+    
     // endpoint for homepage
     @RequestMapping("/home")
     public String homePage() {
@@ -81,21 +83,28 @@ public class HoursController {
     }
  
     // save new workinghours
-    @RequestMapping(value = "/api/savehours", method = RequestMethod.POST)
-    @Tag(name = "Save", description = "Save working hours by id")
-    @Operation(
-        summary = "Save working hours",
-        description = "Save working hours to specific user"
-      )
-    public String save(@ModelAttribute("WorkingHours") WorkingHours workingHours, Principal principal) {
-        String username = principal.getName();
-        User user = urepository.findByUsername(username);
- 
-        // Set hours to user
-        workingHours.setUser(user);
-        wrepository.save(workingHours);
-        return "home";
-    }
+        @RequestMapping(value = "/api/savehours", method = RequestMethod.POST)
+        @Tag(name = "Save", description = "Save working hours by id")
+        @Operation(
+            summary = "Save working hours",
+            description = "Save working hours to specific user"
+          )
+          
+        public ResponseEntity<String> save(@ModelAttribute("WorkingHours") WorkingHours workingHours, Principal principal) {
+            String username = principal.getName();
+            User user = urepository.findByUsername(username);
+     
+            if (workingHours.getStartTime().isAfter(workingHours.getEndTime())) {
+                return ResponseEntity.badRequest().body("Start time cannot be after end time"
+                + "<br><a href=\"/api/addhours\">Back to save</a>");
+            }
+    
+            // Set hours to user
+            workingHours.setUser(user);
+            wrepository.save(workingHours);
+            return ResponseEntity.ok("Hours saved successfully"
+                    + "<br><a href=\"/home\">Back to homepage</a>");
+        }
  
     // Delete existing workinghours using id
     @RequestMapping(value = "/api/delete/{id}", method = RequestMethod.GET)
@@ -131,16 +140,21 @@ public class HoursController {
     }
  
     // update your edits to existing working hours
-    @RequestMapping(value = "/api/update/{id}", method = RequestMethod.POST)
-    @Tag(name = "Update", description = "Update working hours by id")
-    @Operation(
-        summary = "Update working hours",
+            @RequestMapping(value = "/api/update/{id}", method = RequestMethod.POST)
+            @Tag(name = "Update", description = "Update working hours by id")
+            @Operation(
+                summary = "Update working hours",
         description = "Update working hours by id"
-      )
+        )
     
-    public String updateHours(@PathVariable("id") Long id, Model model, WorkingHours hours) {
-        wrepository.save(hours);
-        return "redirect:../listhours";
+        public ResponseEntity<String> updateHours(@PathVariable("id") Long id, Model model, WorkingHours hours) {
+             if (hours.getStartTime().isAfter(hours.getEndTime())) {
+                return ResponseEntity.badRequest().body("Start time cannot be after end time"
+                + "<br><a href=\"/api/addhours\">Back to save</a>");
+            }
+            wrepository.save(hours);
+             return ResponseEntity.ok("Hours saved successfully"
+                    + "<br><a href=\"/home\">Back to homepage</a>");
+        }
+        
     }
- 
-}

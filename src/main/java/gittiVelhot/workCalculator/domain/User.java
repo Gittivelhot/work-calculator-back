@@ -5,6 +5,9 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Transient;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+
 import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.OneToMany;
@@ -14,6 +17,8 @@ import jakarta.persistence.OneToMany;
 public class User {
 	@Id
 	@Column(name = "username", nullable = false, unique = true)
+	@Size(min = 4, max = 20, message = "Username must be between 4 and 20 characters")
+    @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "Username must contain only letters and numbers")
 	private String username;
 
 	@Column(name = "password", nullable = false)
