@@ -76,7 +76,7 @@ public class HoursController {
 
  
     // add working hours
-    @RequestMapping(value = "/api/addhours")
+    @RequestMapping(value = "/addhours")
     public String addHours(Model model) {
         model.addAttribute("workingHours", new WorkingHours());
  
@@ -84,7 +84,7 @@ public class HoursController {
     }
  
     // save new workinghours
-        @RequestMapping(value = "/api/savehours", method = RequestMethod.POST)
+        @RequestMapping(value = "/savehours", method = RequestMethod.POST)
         @Tag(name = "Save", description = "Save working hours by id")
         @Operation(
             summary = "Save working hours",
@@ -108,7 +108,7 @@ public class HoursController {
         }
  
     // Delete existing workinghours using id
-    @RequestMapping(value = "/api/delete/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     @Tag(name = "Delete", description = "Delete working hours by id")
     @Operation(
         summary = "Delete",
@@ -120,7 +120,7 @@ public class HoursController {
     }
  
     // List all existing hours using thymeleaf
-    @RequestMapping(value = "/api/listhours")
+    @RequestMapping(value = "/listhours")
     public String hoursList(Model model) {
         List<WorkingHours> workingHoursList = (List<WorkingHours>) wrepository.findAll();
         model.addAttribute("workingHours", workingHoursList);
@@ -128,7 +128,7 @@ public class HoursController {
     }
  
     // edit existing workinghours
-    @RequestMapping(value = "/api/edithours/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/edithours/{id}", method = RequestMethod.GET)
     @Tag(name = "Edit", description = "Edit working hours by id")
     @Operation(
         summary = "Edit working hours",
@@ -141,7 +141,7 @@ public class HoursController {
     }
  
     // update your edits to existing working hours
-            @RequestMapping(value = "/api/update/{id}", method = RequestMethod.POST)
+            @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
             @Tag(name = "Update", description = "Update working hours by id")
             @Operation(
                 summary = "Update working hours",
