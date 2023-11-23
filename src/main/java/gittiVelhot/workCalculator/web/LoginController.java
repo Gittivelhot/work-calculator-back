@@ -19,32 +19,47 @@ public class LoginController {
 	
 	@Autowired
 	private UserRepository urepository;
-		
-		@RequestMapping(value = "/api/login")
-		public Principal login(Principal user) {
-			return user;
-		}
-		
-		@RequestMapping(value ="/api/signup", method = RequestMethod.POST)
-		public ResponseEntity<String> saveUser(@RequestBody NewUser user) {
-			String password = user.getPassword();
-			String password2 = user.getPasswordCheck();
-			boolean passwordsEqual = password.equals(password2);
-			BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
-			String hashedPassword = bcrypt.encode(password);
-			User u1 = new User();
-			u1.setRole("USER");
-			u1.setPasswordHash(hashedPassword);
-			u1.setUsername(user.getUsername());
-			boolean userExists = urepository.findByUsername(u1.getUsername()) != null;
-			if (!passwordsEqual) {			
-				return ResponseEntity.badRequest().body("Bad Request!");
-			}
-			if (userExists) {			
-				return ResponseEntity.status(406).body("Username already exists!");
-			}
-			urepository.save(u1);
-			return ResponseEntity.ok().body("Ok!");
-		}
+		// Endpoint for user login
+	@RequestMapping(value = "/api/login")
+	public Principal login(Principal user) {
+		return user;
+	}
 
+	// Endpoint to retrieve logged-in user's details
+	@RequestMapping(value = "/userdetails")
+	public ResponseEntity<User> getUserDetails(Principal principal) {
+		String username = principal.getName(); //
+		
+		// Retrieve logged-in user's details from the database
+		User user = urepository.findByUsername(username);
+		
+		if (user != null) {
+			return ResponseEntity.ok().body(user);
+		} else {
+			return ResponseEntity.notFound().build();
+		}
+	}
+		
+	// Endpoint to register a new user
+	@RequestMapping(value ="/api/signup", method = RequestMethod.POST)
+	public ResponseEntity<String> saveUser(@RequestBody NewUser user) {
+		String password = user.getPassword();
+		String password2 = user.getPasswordCheck();
+		boolean passwordsEqual = password.equals(password2);
+		BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
+		String hashedPassword = bcrypt.encode(password);
+		User u1 = new User();
+		u1.setRole("USER");
+		u1.setPasswordHash(hashedPassword);
+		u1.setUsername(user.getUsername());
+		boolean userExists = urepository.findByUsername(u1.getUsername()) != null;
+		if (!passwordsEqual) {			
+			return ResponseEntity.badRequest().body("Bad Request!");
+		}
+		if (userExists) {			
+			return ResponseEntity.status(406).body("Username already exists!");
+		}
+		urepository.save(u1);
+		return ResponseEntity.ok().body("Ok!");
+	}
 }

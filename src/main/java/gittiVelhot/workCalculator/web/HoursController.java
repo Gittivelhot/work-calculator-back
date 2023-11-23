@@ -44,7 +44,7 @@ public class HoursController {
     }
  
     // find users by id REST
-    @RequestMapping(value = "/api/findbyuser", method = RequestMethod.GET)
+    @RequestMapping(value = "/findbyuser", method = RequestMethod.GET)
     @Operation(
         summary = "Fetches user by id",
         description = "Fetches user by id"
@@ -54,7 +54,7 @@ public class HoursController {
     }
  
     // find ALL existing users REST
-    @RequestMapping(value = "/api/findusers", method = RequestMethod.GET)
+    @RequestMapping(value = "/findusers", method = RequestMethod.GET)
     @Operation(
         summary = "Fetches all users",
         description = "Fetches all users"
@@ -65,7 +65,7 @@ public class HoursController {
  
     // List all workinghours REST
     @CrossOrigin(origins = "http://localhost:5173")
-    @RequestMapping(value = "/api/workinghours", method = RequestMethod.GET)
+    @RequestMapping(value = "/workinghours", method = RequestMethod.GET)
     @Operation(
         summary = "Fetches all working hours",
         description = "Fetches all working hours"
@@ -73,6 +73,7 @@ public class HoursController {
     public @ResponseBody List<WorkingHours> tuntilistaRest() {
         return (List<WorkingHours>) wrepository.findAll();
     }
+
  
     // add working hours
     @RequestMapping(value = "/api/addhours")
