@@ -108,15 +108,16 @@ public class HoursController {
         }
  
     // Delete existing workinghours using id
+    
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     @Tag(name = "Delete", description = "Delete working hours by id")
     @Operation(
         summary = "Delete",
         description = "Delete working hours by id"
       )
-    public String deleteHours(@PathVariable Long id) {
+      public ResponseEntity<Object> deleteHours(@PathVariable Long id) {
         wrepository.deleteById(id);
-        return "redirect:../listhours";
+        return ResponseEntity.ok().build();
     }
  
     // List all existing hours using thymeleaf
