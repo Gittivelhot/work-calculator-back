@@ -97,7 +97,7 @@ public class HoursController {
      
             if (workingHours.getStartTime().isAfter(workingHours.getEndTime())) {
                 return ResponseEntity.badRequest().body("Start time cannot be after end time"
-                + "<br><a href=\"/api/addhours\">Back to save</a>");
+                + "<br><a href=\"/addhours\">Back to save</a>");
             }
     
             // Set hours to user
@@ -152,11 +152,13 @@ public class HoursController {
         public ResponseEntity<String> updateHours(@PathVariable("id") Long id, Model model, WorkingHours hours) {
              if (hours.getStartTime().isAfter(hours.getEndTime())) {
                 return ResponseEntity.badRequest().body("Start time cannot be after end time"
-                + "<br><a href=\"/api/addhours\">Back to save</a>");
+                + "<br><a href=\"/addhours\">Back to save</a>");
             }
             wrepository.save(hours);
              return ResponseEntity.ok("Hours saved successfully"
                     + "<br><a href=\"/home\">Back to homepage</a>");
         }
+     
+        
         
     }

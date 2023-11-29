@@ -5,8 +5,10 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Transient;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+
 
 import java.util.List;
 import jakarta.persistence.CascadeType;
@@ -21,8 +23,10 @@ public class User {
     @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "Username must contain only letters and numbers")
 	private String username;
 
-	@Column(name = "password", nullable = false)
-	private String passwordHash;
+	@NotBlank(message = "Password is required")
+    @Size(min = 8, message = "Password must be at least 8 characters")
+    @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$", message = "Password must contain at least one lowercase letter, one uppercase letter, and one digit")
+    private String passwordHash;
 
 	@Column(name = "role", nullable = false)
 	private String role;

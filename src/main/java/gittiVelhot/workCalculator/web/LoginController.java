@@ -53,8 +53,14 @@ public class LoginController {
 		u1.setPasswordHash(hashedPassword);
 		u1.setUsername(user.getUsername());
 		boolean userExists = urepository.findByUsername(u1.getUsername()) != null;
+		if (user.getUsername().length() < 4) {
+            return ResponseEntity.badRequest().body("Username must be at least 4 characters long.");
+        }
 		if (!passwordsEqual) {			
 			return ResponseEntity.badRequest().body("Bad Request!");
+		}
+		if (password.length() < 8 || !password.matches(".*[A-Z].*") || !password.matches(".*[a-z].*") || !password.matches(".*\\d.*")) {
+			return ResponseEntity.badRequest().body("Password does not meet the requirements!");
 		}
 		if (userExists) {			
 			return ResponseEntity.status(406).body("Username already exists!");

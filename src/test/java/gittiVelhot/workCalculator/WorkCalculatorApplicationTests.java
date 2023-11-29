@@ -4,19 +4,27 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+
 import static org.mockito.Mockito.when;
+import static io.restassured.RestAssured.given;
+
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItems;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
-
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import org.springframework.boot.test.context.SpringBootTest;
 
 import gittiVelhot.workCalculator.domain.User;
 import gittiVelhot.workCalculator.domain.UserRepository;
@@ -41,7 +49,9 @@ private HoursController hoursController;
 private Validator validator;
 
 
-	 @Test
+	@Test
+    // you can test valid save by changing the starting and ending times
+    // you can also test invalid save by changing the starting and ending times
     public void testSaveWorkingHours() {
         User mockUser = new User();
         mockUser.setUsername("atte");
@@ -49,17 +59,23 @@ private Validator validator;
 		
         WorkingHours workingHoursToSave = new WorkingHours(
                 1L,
-                LocalDateTime.of(2023, 11, 1, 9, 0),
+                LocalDateTime.of(2023, 11, 1, 10, 0),
                 LocalDateTime.of(2023, 11, 1, 17, 0),
                 mockUser
         );
 
         WorkingHours savedWorkingHours = new WorkingHours(1L,
-                LocalDateTime.of(2023, 11, 1, 9, 0),
+                LocalDateTime.of(2023, 11, 1, 10, 0),
                 LocalDateTime.of(2023, 11, 1, 17, 0),
                 mockUser);
 
-        when(workingHoursRepository.save(workingHoursToSave)).thenReturn(savedWorkingHours);
+        when(workingHoursRepository.save(any(WorkingHours.class))).thenAnswer(invocation -> {
+        WorkingHours argument = invocation.getArgument(0);
+        argument.setStartTime(LocalDateTime.of(2023, 11, 1, 10, 0)); // Change starting time here
+        argument.setEndTime(LocalDateTime.of(2023, 11, 1, 17, 0)); // Change ending time here
+        
+        return argument;
+    });
 
        WorkingHours result = workingHoursRepository.save(workingHoursToSave);
 
@@ -99,8 +115,20 @@ private Validator validator;
 		userRepository.save(user);
 	}
 
+    @Test
+    public void testInvalidPassword() {
+        User user = new User();
+        user.setPasswordHash("Invalid_Password");
+        assertFalse(validator.validate(user).isEmpty());
 
+        userRepository.save(user);
+    }
+
+    private static final String BASE_URL = "http://localhost:8080";
+
+   
 }
+
 
 
 	
