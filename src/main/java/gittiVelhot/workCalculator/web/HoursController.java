@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,7 +18,8 @@ import gittiVelhot.workCalculator.domain.WorkingHoursRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.CrossOrigin;
- 
+import org.springframework.web.bind.annotation.RequestBody;
+
 @Controller
 public class HoursController {
  
@@ -84,28 +84,30 @@ public class HoursController {
     }
  
     // save new workinghours
-        @RequestMapping(value = "/savehours", method = RequestMethod.POST)
-        @Tag(name = "Save", description = "Save working hours by id")
-        @Operation(
-            summary = "Save working hours",
-            description = "Save working hours to specific user"
-          )
-          
-        public ResponseEntity<String> save(@ModelAttribute("WorkingHours") WorkingHours workingHours, Principal principal) {
-            String username = principal.getName();
-            User user = urepository.findByUsername(username);
-     
-            if (workingHours.getStartTime().isAfter(workingHours.getEndTime())) {
-                return ResponseEntity.badRequest().body("Start time cannot be after end time"
-                + "<br><a href=\"/addhours\">Back to save</a>");
-            }
+@RequestMapping(value = "/savehours", method = RequestMethod.POST)
+@Tag(name = "Save", description = "Save working hours by id")
+@Operation(
+    summary = "Save working hours",
+    description = "Save working hours to specific user"
+)
+public ResponseEntity<String> save(@RequestBody WorkingHours workingHours, Principal principal) {
+    if (workingHours.getStartTime().isAfter(workingHours.getEndTime())) {
+        return ResponseEntity.badRequest().body("Start time cannot be after end time");
+    }
+
+    String username = principal.getName();
+    User user = urepository.findByUsername(username);
     
-            // Set hours to user
-            workingHours.setUser(user);
-            wrepository.save(workingHours);
-            return ResponseEntity.ok("Hours saved successfully"
-                    + "<br><a href=\"/home\">Back to homepage</a>");
-        }
+    if (user == null) {
+        return ResponseEntity.badRequest().body("User not found");
+    }
+    
+    workingHours.setUser(user);
+    wrepository.save(workingHours);
+    
+    return ResponseEntity.ok("Hours saved successfully");
+}
+
  
     // Delete existing workinghours using id
     
@@ -127,37 +129,36 @@ public class HoursController {
         model.addAttribute("workingHours", workingHoursList);
         return "hoursList";
     }
- 
-    // edit existing workinghours
-    @RequestMapping(value = "/edithours/{id}", method = RequestMethod.GET)
-    @Tag(name = "Edit", description = "Edit working hours by id")
-    @Operation(
-        summary = "Edit working hours",
-        description = "Edit working hours by id"
-      )
-    public String editHours(@PathVariable("id") Long id, Model model, WorkingHours hours) {
-        model.addAttribute("hours", wrepository.findById(id));
-        model.addAttribute("workingId", id);
-        return "editHours";
+ // edit existing workinghours
+@RequestMapping(value = "/edithours/{id}", method = { RequestMethod.PUT})
+@Tag(name = "Edit", description = "Edit working hours by id")
+@Operation(
+    summary = "Edit working hours",
+    description = "Edit working hours by id"
+)
+public String editHours(@PathVariable("id") Long id, Model model, WorkingHours hours) {
+    model.addAttribute("hours", wrepository.findById(id));
+    model.addAttribute("workingId", id);
+    return "editHours";
+}
+
+// update your edits to existing working hours
+@RequestMapping(value = "/update/{id}", method = {RequestMethod.PUT})
+@Tag(name = "Update", description = "Update working hours by id")
+@Operation(
+    summary = "Update working hours",
+    description = "Update working hours by id"
+)
+public ResponseEntity<String> updateHours(@PathVariable("id") Long id, Model model, WorkingHours hours) {
+    if (hours.getStartTime().isAfter(hours.getEndTime())) {
+        return ResponseEntity.badRequest().body("Start time cannot be after end time"
+            + "<br><a href=\"/addhours\">Back to save</a>");
     }
- 
-    // update your edits to existing working hours
-            @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
-            @Tag(name = "Update", description = "Update working hours by id")
-            @Operation(
-                summary = "Update working hours",
-        description = "Update working hours by id"
-        )
-    
-        public ResponseEntity<String> updateHours(@PathVariable("id") Long id, Model model, WorkingHours hours) {
-             if (hours.getStartTime().isAfter(hours.getEndTime())) {
-                return ResponseEntity.badRequest().body("Start time cannot be after end time"
-                + "<br><a href=\"/addhours\">Back to save</a>");
-            }
-            wrepository.save(hours);
-             return ResponseEntity.ok("Hours saved successfully"
-                    + "<br><a href=\"/home\">Back to homepage</a>");
-        }
+    wrepository.save(hours);
+    return ResponseEntity.ok("Hours saved successfully"
+            + "<br><a href=\"/home\">Back to homepage</a>");
+}
+
      
         
         
